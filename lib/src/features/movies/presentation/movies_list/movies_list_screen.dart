@@ -1,6 +1,9 @@
-import 'package:coolmovies/src/features/movies/data/movies_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../routing/app_router.dart';
+import '../../data/movies_repository.dart';
 
 class MoviesListScreen extends ConsumerWidget {
   const MoviesListScreen({super.key});
@@ -28,7 +31,11 @@ class MoviesListScreen extends ConsumerWidget {
                         leading: Image(image: NetworkImage(movie.imgUrl)),
                         title: Text(movie.title),
                         subtitle: Text(movie.releaseDate.toString()),
-                        onTap: () {},
+                        onTap: () => context.goNamed(
+                          AppRoute.movie.name,
+                          pathParameters: {'id': movie.id.toString()},
+                          extra: movie,
+                        ),
                       );
                     },
                   ),
