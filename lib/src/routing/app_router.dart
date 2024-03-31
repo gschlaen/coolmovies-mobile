@@ -1,5 +1,5 @@
-import 'package:coolmovies/src/features/movie_details/movie_details_screen.dart';
 import 'package:coolmovies/src/features/movies/domain/movie.dart';
+import 'package:coolmovies/src/features/movies/presentation/movie_details/movie_details_screen.dart';
 import 'package:coolmovies/src/features/movies/presentation/movies_list/movies_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
