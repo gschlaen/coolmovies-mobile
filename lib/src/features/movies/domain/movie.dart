@@ -18,7 +18,7 @@ class Movie {
   final String movieDirectorId;
   final String userCreatorId;
   final String title;
-  final DateTime releaseDate;
+  final String releaseDate;
   final String nodeId;
   final User creator;
 
@@ -28,7 +28,7 @@ class Movie {
     String? movieDirectorId,
     String? userCreatorId,
     String? title,
-    DateTime? releaseDate,
+    String? releaseDate,
     String? nodeId,
     User? creator,
   }) {
@@ -51,7 +51,7 @@ class Movie {
       'movieDirectorId': movieDirectorId,
       'userCreatorId': userCreatorId,
       'title': title,
-      'releaseDate': releaseDate.millisecondsSinceEpoch,
+      'releaseDate': releaseDate,
       'nodeId': nodeId,
       'userByUserCreatorId': creator.toMap(),
     };
@@ -64,7 +64,7 @@ class Movie {
       movieDirectorId: map['movieDirectorId'] as String,
       userCreatorId: map['userCreatorId'] as String,
       title: map['title'] as String,
-      releaseDate: DateTime.parse(map['releaseDate'] as String),
+      releaseDate: map['releaseDate'] as String,
       nodeId: map['nodeId'] as String,
       creator: User.fromMap(map['userByUserCreatorId'] as Map<String, dynamic>),
     );
