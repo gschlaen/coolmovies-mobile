@@ -6,15 +6,8 @@ abstract class Queries {
                 id
                 imgUrl
                 movieDirectorId
-                userCreatorId
                 title
                 releaseDate
-                nodeId
-                userByUserCreatorId {
-                  id
-                  name
-                  nodeId
-                }
               }
             }
           }
