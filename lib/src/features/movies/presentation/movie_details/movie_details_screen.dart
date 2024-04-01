@@ -1,5 +1,6 @@
 import 'package:coolmovies/src/features/movies/data/movie_director_repository.dart';
 import 'package:coolmovies/src/features/movies/domain/movie.dart';
+import 'package:coolmovies/src/features/reviews/application/reviews_service.dart';
 import 'package:coolmovies/src/features/reviews/data/reviews_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +36,7 @@ class MovieDetailsScreen extends StatelessWidget {
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final reviews = ref.watch(reviewsProvider(movieId));
+              final userReview = ref.watch(userReviewProvider(movieId));
               return reviews.when(
                 // TODO: improve UI
                 data: (data) => Column(
@@ -43,12 +45,14 @@ class MovieDetailsScreen extends StatelessWidget {
                             leading: Text(e.rating.toString()),
                             title: Text(e.title),
                             subtitle: Text(e.body),
-                            // TODO: Show only in user's review
-                            trailing: GestureDetector(
-                              child: const Icon(Icons.delete),
-                              // TODO: Implement delete review
-                              onTap: () {},
-                            ),
+                            trailing: userReview.value?.userReviewerId ==
+                                    e.userReviewerId
+                                ? GestureDetector(
+                                    child: const Icon(Icons.delete),
+                                    // TODO: Implement delete review
+                                    onTap: () {},
+                                  )
+                                : null,
                           ))
                       .toList(),
                 ),
