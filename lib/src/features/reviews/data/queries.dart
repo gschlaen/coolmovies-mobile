@@ -15,3 +15,12 @@ abstract class Queries {
       }
       """;
 }
+
+abstract class Mutations {
+  static const String deleteReview = r"""
+        mutation DeleteReview($reviewId: UUID!){
+          deleteMovieReviewById(input: {id: $reviewId}) {
+          }
+        }
+      """;
+}
