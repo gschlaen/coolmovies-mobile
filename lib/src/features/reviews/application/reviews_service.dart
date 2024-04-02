@@ -22,6 +22,28 @@ class ReviewService {
           reviewId: reviewId,
         );
   }
+
+  Future<void> submitReview({
+    required String movieId,
+    required String title,
+    required String body,
+    required int rating,
+  }) async {
+    final user = await ref.read(authRepositoryProvider).getCurrentUser();
+    //* we should only call this method when the user is signed in
+    assert(user != null);
+    if (user == null) {
+      throw AssertionError(
+          'Can\'t delete a review if the user is not signed in');
+    }
+    await ref.read(reviewsRepositoryProvider).setReview(
+          movieId: movieId,
+          title: title,
+          body: body,
+          rating: rating,
+          userReviewerId: user.id,
+        );
+  }
 }
 
 /// Check if a movie was previously reviewed by the user
