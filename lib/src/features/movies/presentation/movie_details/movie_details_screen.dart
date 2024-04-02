@@ -2,6 +2,7 @@ import 'package:coolmovies/src/features/movies/data/movie_director_repository.da
 import 'package:coolmovies/src/features/movies/domain/movie.dart';
 import 'package:coolmovies/src/features/reviews/application/reviews_service.dart';
 import 'package:coolmovies/src/features/reviews/data/reviews_repository.dart';
+import 'package:coolmovies/src/features/reviews/presentation/delete_review/delete_review_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,8 @@ class MovieDetailsScreen extends StatelessWidget {
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final reviews = ref.watch(reviewsProvider(movieId));
               final userReview = ref.watch(userReviewProvider(movieId));
+              final state = ref.watch(deleteReviewControllerProvider);
+              // TODO: listen to state.hasError to show an error message
               return reviews.when(
                 // TODO: improve UI
                 data: (data) => Column(
@@ -48,9 +51,18 @@ class MovieDetailsScreen extends StatelessWidget {
                             trailing: userReview.value?.userReviewerId ==
                                     e.userReviewerId
                                 ? GestureDetector(
-                                    child: const Icon(Icons.delete),
-                                    // TODO: Implement delete review
-                                    onTap: () {},
+                                    onTap: state.isLoading
+                                        ? null
+                                        : () => ref
+                                            .read(deleteReviewControllerProvider
+                                                .notifier)
+                                            .deleteReview(
+                                                reviewId: e.id,
+                                                movieId: movieId),
+                                    child:
+                                        state.isLoading && state.value == e.id
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(Icons.delete),
                                   )
                                 : null,
                           ))
