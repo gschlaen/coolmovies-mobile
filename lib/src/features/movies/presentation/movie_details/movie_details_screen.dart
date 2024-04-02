@@ -3,6 +3,7 @@ import 'package:coolmovies/src/features/movies/domain/movie.dart';
 import 'package:coolmovies/src/features/reviews/application/reviews_service.dart';
 import 'package:coolmovies/src/features/reviews/data/reviews_repository.dart';
 import 'package:coolmovies/src/features/reviews/presentation/delete_review/delete_review_controller.dart';
+import 'package:coolmovies/src/features/reviews/presentation/leave_review/leave_review_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -72,6 +73,18 @@ class MovieDetailsScreen extends StatelessWidget {
                 error: (e, st) => Text(e.toString()),
                 loading: () => const Center(child: CircularProgressIndicator()),
               );
+            },
+          ),
+          Consumer(
+            builder: (context, ref, child) {
+              final userReview = ref.watch(userReviewProvider(movieId));
+              // * show the form only if the user hasn´t reviewed the movie
+              if (userReview.value == null) {
+                return LeaveReviewForm(
+                  movietId: movieId,
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ],
