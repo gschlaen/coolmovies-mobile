@@ -23,4 +23,18 @@ abstract class Mutations {
           }
         }
       """;
+
+  static const String setReview = r"""
+        mutation SetReview($title: String!, $body: String!, $rating: Int!, $movieId: UUID!, $userReviewerId: UUID!){
+          createMovieReview(input: {
+            movieReview: {
+              title: $title,
+              body: $body,
+              rating: $rating,
+              movieId: $movieId,
+              userReviewerId: $userReviewerId
+            }}) {
+          }
+        }
+      """;
 }

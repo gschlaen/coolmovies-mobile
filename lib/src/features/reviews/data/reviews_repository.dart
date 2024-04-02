@@ -34,7 +34,34 @@ class ReviewsRepository {
         MutationOptions(
           document: gql(Mutations.deleteReview),
           variables: {'reviewId': reviewId},
-          // fetchPolicy: FetchPolicy.networkOnly,
+        ),
+      );
+      if (result.hasException) {
+        throw Exception(result.exception.toString());
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> setReview({
+    required String movieId,
+    required String title,
+    required String body,
+    required int rating,
+    required String userReviewerId,
+  }) async {
+    try {
+      final result = await client.mutate(
+        MutationOptions(
+          document: gql(Mutations.setReview),
+          variables: {
+            'movieId': movieId,
+            'title': title,
+            'body': body,
+            'rating': rating,
+            'userReviewerId': userReviewerId
+          },
         ),
       );
       if (result.hasException) {
@@ -54,6 +81,5 @@ final reviewsRepositoryProvider = AutoDisposeProvider<ReviewsRepository>((ref) {
 final reviewsProvider = AutoDisposeFutureProvider.family<List<Review>, String>(
     (ref, movieId) async {
   final reviewsRespository = ref.watch(reviewsRepositoryProvider);
-  ref.onDispose(() {});
   return reviewsRespository.fetchReviewsByMovie(movieId: movieId);
 });
