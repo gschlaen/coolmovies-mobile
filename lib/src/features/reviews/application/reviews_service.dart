@@ -3,6 +3,27 @@ import 'package:coolmovies/src/features/reviews/data/reviews_repository.dart';
 import 'package:coolmovies/src/features/reviews/domain/review.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+class ReviewService {
+  ReviewService(this.ref);
+
+  final Ref ref;
+
+  Future<void> deleteReview({
+    required String reviewId,
+  }) async {
+    final user = await ref.read(authRepositoryProvider).getCurrentUser();
+    //* we should only call this method when the user is signed in
+    assert(user != null);
+    if (user == null) {
+      throw AssertionError(
+          'Can\'t delete a review if the user is not signed in');
+    }
+    await ref.read(reviewsRepositoryProvider).deleteReview(
+          reviewId: reviewId,
+        );
+  }
+}
+
 /// Check if a movie was previously reviewed by the user
 final userReviewProvider =
     FutureProvider.autoDispose.family<Review?, String>((ref, movieId) async {
@@ -20,4 +41,8 @@ final userReviewProvider =
     return Future.value(null);
   }
   return null;
+});
+
+final reviewServiceProvider = Provider<ReviewService>((ref) {
+  return ReviewService(ref);
 });
