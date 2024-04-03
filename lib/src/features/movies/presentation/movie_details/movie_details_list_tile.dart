@@ -15,34 +15,36 @@ class MovieDetailsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Row(
-        children: [
-          Image(
-            image: NetworkImage(movie.imgUrl),
-            width: size.width * 0.45,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  movie.title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text('Released: ${movie.releaseDate}'),
-                const SizedBox(height: 12),
-                MovieDirectorWidget(movieDirectorId: movie.movieDirectorId),
-              ],
+    return SliverToBoxAdapter(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Row(
+          children: [
+            Image(
+              image: NetworkImage(movie.imgUrl),
+              width: size.width * 0.45,
             ),
-          )
-        ],
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    movie.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text('Released: ${movie.releaseDate}'),
+                  const SizedBox(height: 12),
+                  MovieDirectorWidget(movieDirectorId: movie.movieDirectorId),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
