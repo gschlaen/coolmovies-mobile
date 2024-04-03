@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common_widgets/error_message_widget.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../application/reviews_service.dart';
 import '../../data/reviews_repository.dart';
 import '../../domain/review.dart';
@@ -17,7 +18,6 @@ class MovieReviewsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final reviews = ref.watch(reviewsProvider(movieId));
 
-    // TODO: listen to state.hasError to show an error message
     return reviews.when(
       data: (reviews) => SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -46,6 +46,11 @@ class MovieReviewCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userReview = ref.watch(userReviewProvider(movieId));
     final state = ref.watch(deleteReviewControllerProvider);
+
+    ref.listen<AsyncValue>(
+      deleteReviewControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
 
     return Card(
       child: Padding(

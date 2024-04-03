@@ -20,12 +20,14 @@ class LeaveReviewController extends AutoDisposeAsyncNotifier<void> {
   }) async {
     final reviewService = ref.read(reviewServiceProvider);
     state = const AsyncLoading();
-    final newState = await AsyncValue.guard(() => reviewService.submitReview(
-          movieId: movieId,
-          title: title,
-          body: body,
-          rating: rating,
-        ));
+    final newState =
+        await AsyncValue.guard(() => throw Exception("Error Adrede"));
+    // final newState = await AsyncValue.guard(() => reviewService.submitReview(
+    //       movieId: movieId,
+    //       title: title,
+    //       body: body,
+    //       rating: rating,
+    //     ));
 
     if (mounted) {
       // * only set the state if the controller hasn´t been disposed

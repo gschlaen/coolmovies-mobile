@@ -1,8 +1,10 @@
-import 'package:coolmovies/src/common_widgets/primary_button.dart';
-import 'package:coolmovies/src/features/reviews/presentation/leave_review/leave_review_controller.dart';
-import 'package:coolmovies/src/features/reviews/presentation/movie_review/movie_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../common_widgets/primary_button.dart';
+import '../../../../utils/async_value_ui.dart';
+import '../movie_review/movie_rating_bar.dart';
+import 'leave_review_controller.dart';
 
 class LeaveReviewForm extends ConsumerStatefulWidget {
   const LeaveReviewForm({required this.movietId, super.key});
@@ -22,7 +24,11 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(leaveReviewControllerProvider);
-    // TODO: listen to state.hasError to show an error message
+    ref.listen<AsyncValue>(
+      leaveReviewControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+
     ref.listen<AsyncValue>(leaveReviewControllerProvider, (_, state) {
       if (state is AsyncData) {
         _titleController.clear();
