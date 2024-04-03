@@ -52,6 +52,9 @@ class MovieReviewCard extends ConsumerWidget {
       (_, state) => state.showAlertDialogOnError(context),
     );
 
+    final reviewedByUser =
+        userReview.value?.userReviewerId == review.userReviewerId;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -67,7 +70,12 @@ class MovieReviewCard extends ConsumerWidget {
                   itemSize: 20,
                   onRatingUpdate: (value) {},
                 ),
-                if (userReview.value?.userReviewerId == review.userReviewerId)
+                if (reviewedByUser) ...[
+                  Text("Your review",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.green)),
                   GestureDetector(
                     onTap: state.isLoading
                         ? null
@@ -79,6 +87,7 @@ class MovieReviewCard extends ConsumerWidget {
                         ? const CircularProgressIndicator()
                         : const Icon(Icons.delete, color: Colors.black45),
                   ),
+                ],
               ],
             ),
             const SizedBox(height: 10),
